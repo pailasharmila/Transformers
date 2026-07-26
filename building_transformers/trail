@@ -3,6 +3,7 @@
 
 import torch
 import torch.nn as nn
+import torch.optim as optim #implements various optimization algorithms used to update a neural network's weights and parameters to minimize training loss.
 
 a = torch.tensor([[2,1,3],[4,0,2]])
 b=torch.tensor([[5,2],[1,4],[3,7]])
@@ -19,7 +20,7 @@ print(matmul)
 class NeuralNetwork(nn.Module):
     def __init__(self):
         # this runs when ever a NeuralNetwork model is created
-        super().__init__()  # initializes pytorch internals, that means setting up every tihng for a neural nets
+        super().__init__()  # initializes pytorch internals, that means setting up every tihng for a neural nets from nn.Module Parent class using super() keyword
         self.linear=nn.Linear(10,5)  # neural network with 10 inputs and 5 outputs
         
     def forward(self,x):
