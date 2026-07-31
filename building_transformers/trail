@@ -21,14 +21,17 @@ class NeuralNetwork(nn.Module):
     def __init__(self):
         # this runs when ever a NeuralNetwork model is created
         super().__init__()  # initializes pytorch internals, that means setting up every tihng for a neural nets from nn.Module Parent class using super() keyword
-        self.linear=nn.Linear(10,5)  # neural network with 10 inputs and 5 outputs
-        
+        self.linear_layer1=nn.Linear(10,5)  # neural network with 10 inputs and 5 outputs
+        self.linear_layer2=nn.Linear(5,1)
     def forward(self,x):
         # this method defines what happens when data flows through the model
         if ((x.shape)[-1])!=10:
             return -1
-        return self.linear(x)  # here x is the input that we are sending inside the neural network
-
+        first_layer=self.linear_layer1(x)  # here x is the input that we are sending inside the neural network
+        relu_of_firstlayer=torch.relu(first_layer)
+        output=self.linear_layer2(relu_of_firstlayer)
+        relu_of_secondlayer=torch.relu(output)
+        return relu_of_secondlayer
 
 obj1=NeuralNetwork()
 x=torch.randn(2,10)
@@ -72,3 +75,32 @@ def display_gradients():
     print(x.grad_dtype)
 
 display_gradients()
+
+
+# Training Loop
+
+obj2=NeuralNetwork()
+
+criterion=nn.MSELoss()  #Initilizes a mse loss function
+optimizer=optim.SGD(obj2.parameters(),lr=0.01)
+print(obj2.parameters())
+
+
+x=torch.randn(4,10)
+y=torch.randn(4,1)
+
+for epoch in range(100):
+    y_pred=obj2.forward(x)
+
+    if isinstance(y_pred,int):
+        print("Invalid Input shape !!")
+        break
+    loss=criterion(y_pred,y)
+    
+    optimizer.zero_grad()  # Reset Gradient
+    loss.backward()         # computes the Gradient
+
+    optimizer.step()
+
+    if epoch%10==0:
+        print(f"Epoch {epoch}, Loss:{loss.item()}")
