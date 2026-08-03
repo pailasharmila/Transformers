@@ -1,0 +1,5 @@
+he paper “Attention Is All You Need” adds Positional Encoding.
+
+👉 This means:
+
+We add some numbers to each word to tell the model its position.
