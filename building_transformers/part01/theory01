@@ -3,3 +3,7 @@ he paper “Attention Is All You Need” adds Positional Encoding.
 👉 This means:
 
 We add some numbers to each word to tell the model its position.
+
+Positional Encoding:
+PE(pos, 2i) = sin(pos / 10000^(2i / d_model)) (for even dimensions)
+PE(pos, 2i+1) = cos(pos / 10000^(2i / d_model)) (for odd dimensions)
